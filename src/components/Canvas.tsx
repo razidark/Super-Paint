@@ -748,8 +748,11 @@ const CanvasEditor = forwardRef<CanvasHandle, CanvasProps>((props, ref) => {
         activeTextInput.current?.remove();
         const textarea = document.createElement('textarea');
         textarea.className = 'text-input-overlay';
-        textarea.style.left = `${e.clientX}px`;
-        textarea.style.top = `${e.clientY}px`;
+        const canvasRect = overlayRef.current?.getBoundingClientRect();
+        const leftCoord = canvasRect ? canvasRect.left + (pos.x * canvasRect.width / canvasWidth) : e.clientX;
+        const topCoord = canvasRect ? canvasRect.top + (pos.y * canvasRect.height / canvasHeight) : e.clientY;
+        textarea.style.left = `${leftCoord}px`;
+        textarea.style.top = `${topCoord}px`;
         textarea.style.fontSize = `${textSize}px`;
         textarea.style.fontFamily = textFont;
         textarea.style.color = brushColor;
